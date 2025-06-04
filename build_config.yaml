@@ -1,0 +1,59 @@
+build:
+  major: 2025
+  minor: 05
+  revision: 21
+  versionStrategy: semver
+  cmdbId: A1809265-S2
+  buildDir: .
+  skipTestModule: true
+  skipPipInstall: true
+  #skipTestIntegration: true
+  #days ToKeep: 14
+  #numToKeep: 10
+
+# Optional build configuration
+  #buildDir: 'dir name'
+  #skipTestModule: true
+  #skipTestIntegration: true
+  #daysToKeep: 14
+  #numToKeep: 10
+
+#artifactory:
+  #groupPath:
+  #artifactName:
+  #artifactoryPath:
+  #directoryToUpload:
+
+publishForBranches: '^(master|main|develop|develop-new)$'
+
+# The container section is used for building Docker images. The entire section can be commented out if your application does not build a Docker image.
+container:
+  name: hr-onboarding-backend
+  artifactoryPath: 'org.tiaa.hr-or arding-backend'
+  imageTagWithBuildVersion: true
+  helmPublishRepo: clienttechlabs-helm-dev
+  artifactoryBuildRepository: clienttechlabs-docker-dev
+
+triggers:
+  electricFlowDeploymentForBranches: '^master$|^main$|^develop|^develop-new$'
+  # deploymentForBranches: '^master$|^main$'
+  # endToEndTestForBranches: '^master$|^main$'
+
+electricFlow:
+  - projectName: client-tech-labs
+    pipelineName: A1809265-S2_hr-onboarding-backend_OpenShift-BG
+    parameters:
+    - name: "AppName"
+      value: hr-onboarding-backend
+    - name: "ArtifactID"
+      value: hr-onboarding-backend
+    - name: "ArtifactoryGroupId"
+      value: 'org.tiaa.hr-onboarding-backend'
+    - name: "ArtifactoryRepoName"
+      value: clienttechlabs-maven-dev
+    - name: "OCNameSpace"
+      value: client-tech-labs
+    - name: "STEnvironment"
+      value: st2
+    - name: "ProjectId"
+      value: TFS2025STANDALONE
